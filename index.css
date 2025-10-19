@@ -1,0 +1,54 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ffffff;
+    color: #333;
+    line-height: 1.6;
+}
+
+.barra-superior {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.Jull{
+    color: #fb8500;
+}
+.ians{
+    color: #4d4d4d;
+}
+
+.jullians-link{
+    text-decoration: none;
+    color: inherit;
+}
+
+.navegacion{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.navegacion a {
+    text-decoration: none;
+    color: #fb8500;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    text-decoration: none;
+    color: #fb8500;
+    font-weight: bold;
+}
+
+.nav-link:focus { 
+    outline: 2px solid #0e0e0d;
+    outline-offset: 4px;
+}
