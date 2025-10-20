@@ -11,7 +11,6 @@ body{
 }
 
 .barra-superior {
-    background-color: #4CAF50;
     color: white;
     padding: 10px 0;
     text-align: center;
@@ -24,15 +23,18 @@ body{
     color: #4d4d4d;
 }
 
-.jullians-link{
-    text-decoration: none;
-    color: inherit;
+.Jullians {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+
 }
 
 .navegacion{
     display: flex;
     justify-content: center;
     gap: 20px;
+    border: #f0f0eb 1.4px solid;
 }
 
 .navegacion a {
@@ -40,15 +42,16 @@ body{
     color: #fb8500;
     font-weight: bold;
     transition: color 0.3s ease;
+    
 }
 
-.nav-link:hover {
-    text-decoration: none;
-    color: #fb8500;
-    font-weight: bold;
+.textocortoimg{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
-.nav-link:focus { 
-    outline: 2px solid #0e0e0d;
-    outline-offset: 4px;
+.img-textocorto {
+    max-width: 100%;
+    height: auto;
 }
