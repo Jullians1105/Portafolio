@@ -37,8 +37,12 @@ export default function About() {
             className="flex flex-col items-center md:items-start gap-6"
           >
             <div className="relative">
-              <div className="w-52 h-52 rounded-full bg-gradient-to-br from-gold via-brown to-accent flex items-center justify-center text-5xl font-bold text-dark shadow-2xl shadow-accent/30 ring-4 ring-gold/20 ring-offset-4 ring-offset-dark">
-                JA
+              <div className="w-52 h-52 rounded-full shadow-2xl shadow-accent/30 ring-4 ring-gold/20 ring-offset-4 ring-offset-dark overflow-hidden">
+                <img
+                  src="/assets/images/yo.jpeg"
+                  alt="Jullians Mauricio Amado Gutierrez"
+                  className="w-full h-full object-cover object-top"
+                />
               </div>
               {/* Decorative ring */}
               <div className="absolute -inset-2 rounded-full border border-gold/10" />

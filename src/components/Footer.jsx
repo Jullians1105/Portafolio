@@ -30,8 +30,12 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-gold to-brown flex items-center justify-center font-bold text-dark text-xs">
-                JA
+              <div className="w-8 h-8 rounded-lg shadow-2xl shadow-accent/30 ring-4 ring-gold/20 ring-offset-4 ring-offset-dark overflow-hidden">
+                <img
+                  src="/assets/images/yo.jpeg"
+                  alt="Jullians Mauricio Amado Gutierrez"
+                  className="w-full h-full object-cover object-top"
+                />
               </div>
               <span className="text-light font-semibold">
                 Jullians<span className="text-gold">.</span>

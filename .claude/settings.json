@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(npm run *)",
-      "Bash(dir /s /b src public)"
+      "Bash(dir /s /b src public)",
+      "Read(//c/Users/default.LAPTOP-UECHLOAU/OneDrive - Universidad Manuela Beltr�n/UMB/**)",
+      "Bash(npm list *)"
     ],
     "additionalDirectories": [
       "c:\\Users\\default.LAPTOP-UECHLOAU\\.claude\\agent-memory\\Frontend-dev"

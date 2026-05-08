@@ -29,8 +29,12 @@ export default function Hero() {
           className="flex justify-center mb-8"
         >
           <div className="relative">
-            <div className="w-36 h-36 rounded-full bg-gradient-to-br from-gold via-brown to-accent flex items-center justify-center text-3xl font-bold text-dark shadow-2xl shadow-accent/30 ring-4 ring-gold/20">
-              JA
+            <div className="w-36 h-36 rounded-full shadow-2xl shadow-accent/30 ring-4 ring-gold/20 overflow-hidden">
+              <img
+                src="/assets/images/yo.jpeg"
+                alt="Jullians Mauricio Amado Gutierrez"
+                className="w-full h-full object-cover object-top"
+              />
             </div>
             <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-dark" title="Disponible" />
           </div>

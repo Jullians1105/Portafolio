@@ -1,5 +1,14 @@
-import { motion } from 'framer-motion'
-import { FaStar, FaRegStar } from 'react-icons/fa'
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { FaStar, FaRegStar, FaTimes, FaDownload, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { Document, Page, pdfjs } from 'react-pdf'
+import 'react-pdf/dist/Page/AnnotationLayer.css'
+import 'react-pdf/dist/Page/TextLayer.css'
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url,
+).toString()
 
 const skillCategories = [
   {
@@ -59,38 +68,183 @@ const certifications = [
     date: 'Mar 2026',
     name: 'Enterprise Full Stack with Spring Boot 4 and Angular 21',
     issuer: 'Dev Senior Code',
+    file: '/assets/certificates/cert-fullstack.pdf',
+    type: 'pdf',
   },
   {
     date: 'Mar 2026',
     name: 'Gestión de Amenazas Cibernéticas',
     issuer: 'Cisco Networking Academy',
+    file: '/assets/certificates/cert-amenazas.pdf',
+    type: 'pdf',
   },
   {
     date: 'Oct 2024',
     name: 'Google Cloud Computing Foundations',
     issuer: 'Google Cloud',
+    file: '/assets/certificates/cert-google-cloud.png',
+    type: 'image',
   },
   {
     date: 'Sep 2024',
     name: 'Scrum Fundamentals Certified',
     issuer: 'SCRUM study',
+    file: '/assets/certificates/cert-scrum.pdf',
+    type: 'pdf',
   },
   {
     date: 'Ago 2024',
     name: 'NDG Linux Unhatched',
     issuer: 'Cisco Networking Academy',
+    file: '/assets/certificates/cert-linux.pdf',
+    type: 'pdf',
   },
   {
     date: 'May 2023',
     name: 'Python Essentials 1',
     issuer: 'Cisco Networking Academy',
+    file: '/assets/certificates/cert-python.pdf',
+    type: 'pdf',
   },
   {
     date: '2023',
     name: 'Oracle Cloud Data Management Foundations Associate',
     issuer: 'Oracle',
+    file: '/assets/certificates/cert-oracle.png',
+    type: 'image',
   },
 ]
+
+function CertModal({ cert, onClose }) {
+  const [numPages, setNumPages] = useState(null)
+  const [pageNumber, setPageNumber] = useState(1)
+  const [pageWidth, setPageWidth] = useState(700)
+
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === 'Escape') onClose()
+      if (e.key === 'ArrowRight') setPageNumber((p) => Math.min(p + 1, numPages || 1))
+      if (e.key === 'ArrowLeft') setPageNumber((p) => Math.max(p - 1, 1))
+    }
+    document.addEventListener('keydown', handleKey)
+    document.body.style.overflow = 'hidden'
+
+    const updateWidth = () => {
+      setPageWidth(Math.min(window.innerWidth - 80, 700))
+    }
+    updateWidth()
+    window.addEventListener('resize', updateWidth)
+
+    return () => {
+      document.removeEventListener('keydown', handleKey)
+      document.body.style.overflow = ''
+      window.removeEventListener('resize', updateWidth)
+    }
+  }, [onClose, numPages])
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm"
+      >
+        <motion.div
+          initial={{ opacity: 0, scale: 0.93, y: 24 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.93, y: 24 }}
+          transition={{ duration: 0.25, ease: 'easeOut' }}
+          onClick={(e) => e.stopPropagation()}
+          className="relative bg-[#111010] border border-brown/20 rounded-2xl shadow-2xl w-full max-w-3xl max-h-[92vh] flex flex-col overflow-hidden"
+        >
+          {/* Header */}
+          <div className="flex items-start justify-between gap-4 px-6 py-4 border-b border-brown/20 flex-shrink-0">
+            <div className="min-w-0">
+              <p className="text-gold/70 text-xs font-mono mb-1">{cert.date} · {cert.issuer}</p>
+              <h3 className="text-light font-semibold text-sm leading-snug truncate">{cert.name}</h3>
+            </div>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <a
+                href={cert.file}
+                download
+                className="inline-flex items-center gap-1.5 text-xs text-gold/60 hover:text-gold border border-brown/30 hover:border-gold/40 px-3 py-1.5 rounded-lg transition-all duration-200"
+              >
+                <FaDownload size={10} />
+                Descargar
+              </a>
+              <button
+                onClick={onClose}
+                className="text-light/30 hover:text-light transition-colors duration-200 p-1.5 rounded-lg hover:bg-white/5"
+                aria-label="Cerrar"
+              >
+                <FaTimes size={16} />
+              </button>
+            </div>
+          </div>
+
+          {/* Certificate content */}
+          <div className="flex-1 overflow-y-auto flex flex-col items-center py-6 px-4 gap-4 min-h-0 bg-[#0d0c0c]">
+            {cert.type === 'image' ? (
+              <img
+                src={cert.file}
+                alt={cert.name}
+                className="max-w-full max-h-[70vh] object-contain rounded-xl shadow-2xl"
+              />
+            ) : (
+              <Document
+                file={cert.file}
+                onLoadSuccess={({ numPages }) => { setNumPages(numPages); setPageNumber(1) }}
+                loading={
+                  <div className="flex items-center justify-center h-64 text-gold/40 text-sm">
+                    Cargando certificado...
+                  </div>
+                }
+                error={
+                  <div className="flex items-center justify-center h-64 text-gold/40 text-sm">
+                    No se pudo cargar el certificado.
+                  </div>
+                }
+              >
+                <Page
+                  pageNumber={pageNumber}
+                  width={pageWidth}
+                  renderTextLayer={false}
+                  renderAnnotationLayer={false}
+                  className="rounded-xl overflow-hidden shadow-2xl"
+                />
+              </Document>
+            )}
+
+            {/* Pagination — only for multi-page PDFs */}
+            {cert.type === 'pdf' && numPages > 1 && (
+              <div className="flex items-center gap-4 text-sm text-light/50">
+                <button
+                  onClick={() => setPageNumber((p) => Math.max(p - 1, 1))}
+                  disabled={pageNumber <= 1}
+                  className="p-2 rounded-lg hover:bg-white/5 disabled:opacity-30 transition-all"
+                >
+                  <FaChevronLeft size={12} />
+                </button>
+                <span className="font-mono text-xs">
+                  {pageNumber} / {numPages}
+                </span>
+                <button
+                  onClick={() => setPageNumber((p) => Math.min(p + 1, numPages))}
+                  disabled={pageNumber >= numPages}
+                  className="p-2 rounded-lg hover:bg-white/5 disabled:opacity-30 transition-all"
+                >
+                  <FaChevronRight size={12} />
+                </button>
+              </div>
+            )}
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  )
+}
 
 function StarRating({ rating, max = 5 }) {
   return (
@@ -130,6 +284,8 @@ function SkillCard({ category, index }) {
 }
 
 export default function Skills() {
+  const [selectedCert, setSelectedCert] = useState(null)
+
   return (
     <section id="habilidades" className="py-24 bg-dark">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -222,21 +378,33 @@ export default function Skills() {
                     }`}
                   />
 
-                  <div className="card hover:border-gold/40">
+                  <button
+                    onClick={() => setSelectedCert(cert)}
+                    className="card hover:border-gold/40 w-full text-left cursor-pointer group transition-all duration-200 hover:shadow-lg hover:shadow-gold/10"
+                  >
                     <span className="inline-block text-gold text-xs font-mono mb-2 bg-accent/20 px-2 py-0.5 rounded">
                       {cert.date}
                     </span>
-                    <h4 className="text-light font-semibold text-sm leading-snug mb-1">
+                    <h4 className="text-light font-semibold text-sm leading-snug mb-1 group-hover:text-gold transition-colors duration-200">
                       {cert.name}
                     </h4>
-                    <p className="text-gold/60 text-xs">{cert.issuer}</p>
-                  </div>
+                    <div className="flex items-center justify-between">
+                      <p className="text-gold/60 text-xs">{cert.issuer}</p>
+                      <span className="text-gold/30 text-xs group-hover:text-gold/60 transition-colors duration-200">
+                        Ver certificado →
+                      </span>
+                    </div>
+                  </button>
                 </motion.div>
               ))}
             </div>
           </div>
         </motion.div>
       </div>
+
+      {selectedCert && (
+        <CertModal cert={selectedCert} onClose={() => setSelectedCert(null)} />
+      )}
     </section>
   )
 }
