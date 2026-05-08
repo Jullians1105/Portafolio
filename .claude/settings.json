@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(dir /s /b src public)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\default.LAPTOP-UECHLOAU\\.claude\\agent-memory\\Frontend-dev"
+    ]
+  }
+}
