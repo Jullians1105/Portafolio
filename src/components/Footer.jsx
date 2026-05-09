@@ -97,12 +97,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-brown/15 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-light/30 text-xs">
-            &copy; 2025 Jullians Mauricio Amado Gutierrez. Todos los derechos reservados.
-          </p>
-          <p className="text-light/30 text-xs flex items-center gap-1.5">
-            Hecho con{' '}
-            <FaHeart size={10} className="text-accent" />{' '}
-            en Bogotá, Colombia
+            &copy; 2026 Jullians Mauricio Amado Gutierrez. Todos los derechos reservados.
           </p>
         </div>
       </div>
