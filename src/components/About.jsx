@@ -115,7 +115,7 @@ export default function About() {
 
             {/* Download CV */}
             <motion.a
-              href="/assets/cv/Hoja_de_vida_-_Jullians_Amado.pdf"
+              href="/assets/cv/Hoja de vida - Jullians Amado.pdf"
               download
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.97 }}

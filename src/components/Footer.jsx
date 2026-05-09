@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { FaGithub, FaLinkedin, FaHeart } from 'react-icons/fa'
+import { FaGithub, FaLinkedin,} from 'react-icons/fa'
 
 const socialLinks = [
   {
@@ -99,6 +99,7 @@ export default function Footer() {
           <p className="text-light/30 text-xs">
             &copy; 2026 Jullians Mauricio Amado Gutierrez. Todos los derechos reservados.
           </p>
+
         </div>
       </div>
     </footer>
