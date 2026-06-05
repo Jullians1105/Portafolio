@@ -1,6 +1,5 @@
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import AudioPlayer from './components/AudioPlayer'
 import About from './components/About'
 import Projects from './components/Projects'
 import Skills from './components/Skills'
@@ -14,7 +13,6 @@ function App() {
       <Navbar />
       <main>
         <Hero />
-        <AudioPlayer />
         <About />
         <Projects />
         <Skills />

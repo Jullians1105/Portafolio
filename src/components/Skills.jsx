@@ -65,6 +65,20 @@ const softSkills = [
 
 const certifications = [
   {
+    date: 'May 2026',
+    name: 'Hacking Ético',
+    issuer: 'Cisco Networking Academy',
+    file: '/assets/certificates/cert-hacking-etico.pdf',
+    type: 'pdf',
+  },
+  {
+    date: 'Abr 2026',
+    name: 'Ethical Hacker',
+    issuer: 'Cisco Networking Academy',
+    file: '/assets/certificates/cert-ethical-hacker.pdf',
+    type: 'pdf',
+  },
+  {
     date: 'Mar 2026',
     name: 'Enterprise Full Stack with Spring Boot 4 and Angular 21',
     issuer: 'Dev Senior Code',
@@ -79,6 +93,20 @@ const certifications = [
     type: 'pdf',
   },
   {
+    date: 'Nov 2025',
+    name: 'Introduction to CSS',
+    issuer: 'Sololearn',
+    file: '/assets/certificates/cert-css-sololearn.jpg',
+    type: 'image',
+  },
+  {
+    date: 'Feb 2025',
+    name: 'Introduction to HTML',
+    issuer: 'Sololearn',
+    file: '/assets/certificates/cert-html-sololearn.png',
+    type: 'image',
+  },
+  {
     date: 'Oct 2024',
     name: 'Google Cloud Computing Foundations',
     issuer: 'Google Cloud',
@@ -88,7 +116,7 @@ const certifications = [
   {
     date: 'Sep 2024',
     name: 'Scrum Fundamentals Certified',
-    issuer: 'SCRUM study',
+    issuer: 'SCRUMstudy',
     file: '/assets/certificates/cert-scrum.pdf',
     type: 'pdf',
   },
@@ -107,10 +135,31 @@ const certifications = [
     type: 'pdf',
   },
   {
+    date: 'Mar 2023',
+    name: 'Excel Avanzado',
+    issuer: 'Academia',
+    file: '/assets/certificates/cert-excel-avanzado.pdf',
+    type: 'pdf',
+  },
+  {
+    date: 'Feb 2023',
+    name: 'Excel Intermedio',
+    issuer: 'Academia',
+    file: '/assets/certificates/cert-excel-intermedio.pdf',
+    type: 'pdf',
+  },
+  {
     date: '2023',
     name: 'Oracle Cloud Data Management Foundations Associate',
     issuer: 'Oracle',
     file: '/assets/certificates/cert-oracle.png',
+    type: 'image',
+  },
+  {
+    date: '2023',
+    name: 'Networking Academy Learn-A-Thon — Participante',
+    issuer: 'Cisco Networking Academy',
+    file: '/assets/certificates/cert-learnathon-cisco.png',
     type: 'image',
   },
 ]
