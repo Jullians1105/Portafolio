@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaStar, FaRegStar, FaTimes, FaDownload, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { FaTimes, FaDownload, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { Document, Page, pdfjs } from 'react-pdf'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
@@ -206,7 +206,7 @@ function CertModal({ cert, onClose }) {
           exit={{ opacity: 0, scale: 0.93, y: 24 }}
           transition={{ duration: 0.25, ease: 'easeOut' }}
           onClick={(e) => e.stopPropagation()}
-          className="relative bg-[#111010] border border-brown/20 rounded-2xl shadow-2xl w-full max-w-3xl max-h-[92vh] flex flex-col overflow-hidden"
+          className="relative bg-surface border border-brown/20  shadow-2xl w-full max-w-3xl max-h-[92vh] flex flex-col overflow-hidden"
         >
           {/* Header */}
           <div className="flex items-start justify-between gap-4 px-6 py-4 border-b border-brown/20 flex-shrink-0">
@@ -234,12 +234,12 @@ function CertModal({ cert, onClose }) {
           </div>
 
           {/* Certificate content */}
-          <div className="flex-1 overflow-y-auto flex flex-col items-center py-6 px-4 gap-4 min-h-0 bg-[#0d0c0c]">
+          <div className="flex-1 overflow-y-auto flex flex-col items-center py-6 px-4 gap-4 min-h-0 bg-ink">
             {cert.type === 'image' ? (
               <img
                 src={cert.file}
                 alt={cert.name}
-                className="max-w-full max-h-[70vh] object-contain rounded-xl shadow-2xl"
+                className="max-w-full max-h-[70vh] object-contain  shadow-2xl"
               />
             ) : (
               <Document
@@ -261,7 +261,7 @@ function CertModal({ cert, onClose }) {
                   width={pageWidth}
                   renderTextLayer={false}
                   renderAnnotationLayer={false}
-                  className="rounded-xl overflow-hidden shadow-2xl"
+                  className=" overflow-hidden shadow-2xl"
                 />
               </Document>
             )}
@@ -295,40 +295,13 @@ function CertModal({ cert, onClose }) {
   )
 }
 
-function StarRating({ rating, max = 5 }) {
+function Rating({ rating, max = 5 }) {
   return (
-    <div className="flex gap-0.5" aria-label={`Nivel ${rating} de ${max}`}>
+    <div className="flex gap-1" aria-label={`Nivel ${rating} de ${max}`}>
       {Array.from({ length: max }).map((_, i) => (
-        <span key={i} className={i < rating ? 'text-gold' : 'text-brown/30'}>
-          {i < rating ? <FaStar size={11} /> : <FaRegStar size={11} />}
-        </span>
+        <span key={i} className={`w-2 h-2 ${i < rating ? 'bg-volt' : 'bg-line'}`} />
       ))}
     </div>
-  )
-}
-
-function SkillCard({ category, index }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="card"
-    >
-      <div className="flex items-center gap-3 mb-5">
-        <span className="text-2xl">{category.icon}</span>
-        <h3 className="text-light font-semibold">{category.title}</h3>
-      </div>
-      <ul className="space-y-3">
-        {category.skills.map((skill) => (
-          <li key={skill.name} className="flex items-center justify-between">
-            <span className="text-light/70 text-sm">{skill.name}</span>
-            <StarRating rating={skill.rating} />
-          </li>
-        ))}
-      </ul>
-    </motion.div>
   )
 }
 
@@ -336,124 +309,87 @@ export default function Skills() {
   const [selectedCert, setSelectedCert] = useState(null)
 
   return (
-    <section id="habilidades" className="py-24 bg-dark">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        {/* Header */}
-        <motion.div
+    <section id="habilidades" className="py-28 border-t border-line">
+      <div className="max-w-[90rem] mx-auto px-5 sm:px-10">
+        <p className="eyebrow mb-6">03 — Habilidades</p>
+        <motion.h2
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="section-title text-bone max-w-4xl mb-16"
         >
-          <p className="section-subtitle">Capacidades</p>
-          <h2 className="section-title">Habilidades</h2>
-          <div className="w-16 h-1 bg-gradient-to-r from-gold to-brown mx-auto mt-4 rounded-full" />
-        </motion.div>
+          Las herramientas con las que <span className="mark">construyo</span>.
+        </motion.h2>
 
-        {/* Skills grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 border-t border-line">
           {skillCategories.map((cat, i) => (
-            <SkillCard key={cat.title} category={cat} index={i} />
+            <motion.div
+              key={cat.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+              className="py-8 sm:pr-8 border-b border-line"
+            >
+              <h3 className="font-display text-3xl text-bone mb-6">{cat.title}</h3>
+              <ul className="space-y-3">
+                {cat.skills.map((skill) => (
+                  <li key={skill.name} className="flex items-center justify-between gap-4">
+                    <span className="text-bone/70 text-sm">{skill.name}</span>
+                    <Rating rating={skill.rating} />
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
           ))}
         </div>
 
-        {/* Soft skills */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6 }}
-          className="mb-20"
-        >
-          <h3 className="text-center text-light/60 text-xs tracking-widest uppercase font-medium mb-5">
-            Habilidades Blandas
-          </h3>
-          <div className="flex flex-wrap justify-center gap-3">
+        {/* Habilidades blandas */}
+        <div className="py-14 border-b border-line">
+          <p className="eyebrow mb-5">Habilidades blandas</p>
+          <p className="font-display text-3xl sm:text-5xl leading-tight text-mute">
             {softSkills.map((skill, i) => (
-              <motion.span
-                key={skill}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-                whileHover={{ scale: 1.08 }}
-                className="px-4 py-2 bg-accent/20 border border-brown/30 text-gold/80 text-sm rounded-full font-medium hover:border-gold/50 hover:text-gold transition-all duration-200 cursor-default"
-              >
-                {skill}
-              </motion.span>
+              <span key={skill}>
+                <span className="hover:text-bone transition-colors">{skill}</span>
+                {i < softSkills.length - 1 && <span className="text-line"> / </span>}
+              </span>
             ))}
-          </div>
-        </motion.div>
+          </p>
+        </div>
 
-        {/* Certifications */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6 }}
-          id="certificaciones"
-        >
-          <div className="text-center mb-10">
-            <p className="section-subtitle">Formación</p>
-            <h2 className="section-title">Certificaciones</h2>
-            <div className="w-16 h-1 bg-gradient-to-r from-gold to-brown mx-auto mt-4 rounded-full" />
-          </div>
+        {/* Certificaciones */}
+        <div id="certificaciones" className="pt-24">
+          <p className="eyebrow mb-6">Formación</p>
+          <h2 className="section-title text-bone mb-12">Certificaciones</h2>
 
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-gold/40 via-brown/20 to-transparent -translate-x-1/2" />
-
-            <div className="space-y-6">
-              {certifications.map((cert, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.5, delay: index * 0.08 }}
-                  className={`relative pl-12 md:pl-0 md:w-1/2 ${
-                    index % 2 === 0
-                      ? 'md:pr-12 md:text-right md:ml-0'
-                      : 'md:ml-auto md:pl-12'
-                  }`}
+          <ul className="border-t border-line">
+            {certifications.map((cert) => (
+              <li key={cert.file} className="border-b border-line">
+                <button
+                  onClick={() => setSelectedCert(cert)}
+                  className="group w-full grid grid-cols-12 gap-x-4 gap-y-1 items-baseline py-5 text-left cursor-pointer hover:bg-surface transition-colors px-2 -mx-2"
                 >
-                  {/* Dot */}
-                  <div
-                    className={`absolute top-4 w-3 h-3 rounded-full bg-gold border-2 border-dark shadow-sm shadow-gold/50 ${
-                      index % 2 === 0
-                        ? 'left-2.5 md:left-auto md:-right-1.5 md:translate-x-1/2'
-                        : 'left-2.5 md:-left-1.5 md:-translate-x-1/2'
-                    }`}
-                  />
-
-                  <button
-                    onClick={() => setSelectedCert(cert)}
-                    className="card hover:border-gold/40 w-full text-left cursor-pointer group transition-all duration-200 hover:shadow-lg hover:shadow-gold/10"
-                  >
-                    <span className="inline-block text-gold text-xs font-mono mb-2 bg-accent/20 px-2 py-0.5 rounded">
-                      {cert.date}
-                    </span>
-                    <h4 className="text-light font-semibold text-sm leading-snug mb-1 group-hover:text-gold transition-colors duration-200">
-                      {cert.name}
-                    </h4>
-                    <div className="flex items-center justify-between">
-                      <p className="text-gold/60 text-xs">{cert.issuer}</p>
-                      <span className="text-gold/30 text-xs group-hover:text-gold/60 transition-colors duration-200">
-                        Ver certificado →
-                      </span>
-                    </div>
-                  </button>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
+                  <span className="col-span-4 sm:col-span-2 font-mono text-[11px] uppercase tracking-wider text-mute">
+                    {cert.date}
+                  </span>
+                  <span className="col-span-8 sm:col-span-6 font-display text-2xl leading-tight text-bone group-hover:text-glow transition-colors">
+                    {cert.name}
+                  </span>
+                  <span className="col-span-8 col-start-5 sm:col-start-auto sm:col-span-3 text-xs text-mute">
+                    {cert.issuer}
+                  </span>
+                  <span className="hidden sm:block col-span-1 text-right text-mute group-hover:text-bone transition-colors">
+                    ↗
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
-      {selectedCert && (
-        <CertModal cert={selectedCert} onClose={() => setSelectedCert(null)} />
-      )}
+      {selectedCert && <CertModal cert={selectedCert} onClose={() => setSelectedCert(null)} />}
     </section>
   )
 }

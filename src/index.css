@@ -2,74 +2,102 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --color-dark: #0A0908;
-  --color-accent: #49111C;
-  --color-light: #F2F4F3;
-  --color-gold: #A9927D;
-  --color-brown: #5E503F;
-}
-
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
-  background-color: #0A0908;
-  color: #F2F4F3;
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #05060F;
+  color: #EDEDE9;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0A0908;
+  background: #05060F;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #A9927D;
+  background: #1E2138;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #5E503F;
+  background: #2B2BFF;
 }
 
-/* Selection color */
 ::selection {
-  background-color: #49111C;
-  color: #F2F4F3;
+  background-color: #2B2BFF;
+  color: #fff;
 }
 
-/* Smooth transitions */
-* {
-  transition-property: color, background-color, border-color, box-shadow;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+@keyframes spin-record {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.record-spin {
+  animation: spin-record 28s linear infinite;
+}
+
+.marquee-track {
+  animation: marquee 32s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .record-spin,
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* Fuente de títulos: más ancha que una serif, así que la apretamos un poco */
+.font-display {
+  font-weight: 600;
+  letter-spacing: -0.035em;
 }
 
 @layer components {
-  .btn-primary {
-    @apply bg-accent text-gold border border-accent px-6 py-3 rounded-lg font-semibold hover:bg-accent/80 hover:border-gold transition-all duration-300 cursor-pointer;
-  }
-
-  .btn-outline {
-    @apply bg-transparent text-gold border border-gold px-6 py-3 rounded-lg font-semibold hover:bg-gold/10 transition-all duration-300 cursor-pointer;
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-[0.2em] text-mute;
   }
 
   .section-title {
-    @apply text-3xl md:text-4xl font-bold text-light mb-2;
+    @apply font-display text-5xl md:text-7xl leading-[0.95];
   }
 
-  .section-subtitle {
-    @apply text-gold font-medium text-sm tracking-widest uppercase mb-4;
+  /* Palabra resaltada con caja azul, como el titular de Anthracite */
+  .mark {
+    @apply bg-volt text-white px-[0.18em];
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
   }
 
-  .card {
-    @apply bg-dark/60 border border-brown/30 rounded-xl p-6 hover:border-gold/50 transition-all duration-300;
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 border border-bone text-bone px-6 py-3 text-[11px] font-mono uppercase tracking-[0.18em] hover:bg-bone hover:text-ink transition-colors duration-300 cursor-pointer;
+  }
+
+  .btn-link {
+    @apply inline-flex items-center justify-center gap-2 text-bone px-2 py-3 text-[11px] font-mono uppercase tracking-[0.18em] underline underline-offset-8 decoration-line hover:decoration-bone transition-colors duration-300 cursor-pointer;
+  }
+
+  .btn-dark {
+    @apply inline-flex items-center justify-center gap-2 border border-graphite/30 text-graphite px-6 py-3 text-[11px] font-mono uppercase tracking-[0.18em] hover:bg-graphite hover:text-paper transition-colors duration-300 cursor-pointer;
   }
 }
