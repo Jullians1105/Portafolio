@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaBars, FaTimes } from 'react-icons/fa'
 
 const navLinks = [
   { label: 'Inicio', href: '#inicio' },
-  { label: 'Sobre Mí', href: '#sobre-mi' },
+  { label: 'Sobre mí', href: '#sobre-mi' },
   { label: 'Proyectos', href: '#proyectos' },
   { label: 'Habilidades', href: '#habilidades' },
   { label: 'Contacto', href: '#contacto' },
@@ -12,23 +11,15 @@ const navLinks = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
   const [activeLink, setActiveLink] = useState('#inicio')
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20)
-
-      // Update active link based on scroll position
-      const sections = navLinks.map(link => link.href.slice(1))
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i])
-        if (el) {
-          const rect = el.getBoundingClientRect()
-          if (rect.top <= 120) {
-            setActiveLink(`#${sections[i]}`)
-            break
-          }
+      for (let i = navLinks.length - 1; i >= 0; i--) {
+        const el = document.getElementById(navLinks[i].href.slice(1))
+        if (el && el.getBoundingClientRect().top <= 160) {
+          setActiveLink(navLinks[i].href)
+          break
         }
       }
     }
@@ -37,106 +28,103 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : ''
+    const onKey = (e) => e.key === 'Escape' && setIsOpen(false)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = ''
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [isOpen])
+
   const handleLinkClick = (href) => {
     setActiveLink(href)
     setIsOpen(false)
   }
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-dark/95 backdrop-blur-md shadow-lg shadow-black/40'
-          : 'bg-transparent'
-      }`}
-    >
-      <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+    <>
+      {/* Píldora flotante central */}
+      <header className="fixed top-4 left-1/2 -translate-x-1/2 z-[60] w-[min(92vw,26rem)]">
+        <div className="flex items-center justify-between bg-black border border-line px-4 h-12">
           <a
             href="#inicio"
             onClick={() => handleLinkClick('#inicio')}
-            className="flex items-center gap-2 group"
+            className="font-display text-2xl text-white leading-none"
+            aria-label="Inicio"
           >
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-gold to-brown flex items-center justify-center font-bold text-dark text-sm group-hover:scale-110 transition-transform duration-300">
-              JA
-            </div>
-            <span className="text-light font-semibold hidden sm:block">
-              Jullians<span className="text-gold">.</span>
-            </span>
+            JA
           </a>
-
-          {/* Desktop links */}
-          <ul className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  onClick={() => handleLinkClick(link.href)}
-                  className={`relative px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
-                    activeLink === link.href
-                      ? 'text-gold'
-                      : 'text-light/70 hover:text-light'
-                  }`}
-                >
-                  {link.label}
-                  {activeLink === link.href && (
-                    <motion.span
-                      layoutId="activeIndicator"
-                      className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-gold rounded-full"
-                    />
-                  )}
-                </a>
-              </li>
-            ))}
-          </ul>
-
-          {/* Mobile hamburger */}
+          <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-white/70">
+            Jullians Amado
+          </span>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-light hover:text-gold transition-colors duration-200 p-2"
+            className="flex flex-col gap-[5px] p-2 -mr-2"
             aria-label={isOpen ? 'Cerrar menú' : 'Abrir menú'}
+            aria-expanded={isOpen}
           >
-            {isOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+            <span
+              className={`block w-5 h-px bg-white transition-transform duration-300 ${
+                isOpen ? 'translate-y-[3px] rotate-45' : ''
+              }`}
+            />
+            <span
+              className={`block w-5 h-px bg-white transition-transform duration-300 ${
+                isOpen ? '-translate-y-[3px] -rotate-45' : ''
+              }`}
+            />
           </button>
         </div>
-      </nav>
+      </header>
 
-      {/* Mobile menu */}
+      <a
+        href="#contacto"
+        className="hidden md:block fixed top-4 right-6 z-[60] h-12 leading-[3rem] px-5 bg-white text-ink font-mono text-[10px] uppercase tracking-[0.22em] hover:bg-volt hover:text-white transition-colors"
+      >
+        Contacto
+      </a>
+
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="md:hidden bg-dark/98 backdrop-blur-md border-t border-brown/20 overflow-hidden"
+          <motion.nav
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-50 bg-ink flex flex-col justify-center px-5 sm:px-12"
+            aria-label="Principal"
           >
-            <ul className="px-4 py-3 flex flex-col gap-1">
-              {navLinks.map((link, index) => (
+            <ul className="max-w-3xl w-full mx-auto">
+              {navLinks.map((link, i) => (
                 <motion.li
                   key={link.href}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.07 }}
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.08 + i * 0.06 }}
+                  className="border-b border-line"
                 >
                   <a
                     href={link.href}
                     onClick={() => handleLinkClick(link.href)}
-                    className={`block px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
-                      activeLink === link.href
-                        ? 'text-gold bg-accent/30'
-                        : 'text-light/70 hover:text-light hover:bg-brown/10'
-                    }`}
+                    className="group flex items-baseline gap-5 py-4 sm:py-5"
                   >
-                    {link.label}
+                    <span className="font-mono text-[11px] text-mute">0{i + 1}</span>
+                    <span
+                      className={`font-display text-5xl sm:text-7xl leading-none transition-colors ${
+                        activeLink === link.href ? 'text-glow' : 'text-bone group-hover:text-glow'
+                      }`}
+                    >
+                      {link.label}
+                    </span>
                   </a>
                 </motion.li>
               ))}
             </ul>
-          </motion.div>
+          </motion.nav>
         )}
       </AnimatePresence>
-    </header>
+    </>
   )
 }
